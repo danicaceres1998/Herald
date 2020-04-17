@@ -152,6 +152,4 @@ end
 
 ### MAIN ###
 herald = Herald.new
-list = herald.search_billers('ande'.downcase)
-puts "#{list[0]['name_brand']} ... #{list}"
 herald.main
