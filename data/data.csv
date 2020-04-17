@@ -1,0 +1,633 @@
+id_brand;name_brand;id_prd;name_prd
+1;ANDE;1;Pago de Factura
+2;Copaco;2;Pago de Factura
+2;Copaco;3;Recarga de Saldo
+2;Copaco;93;Pago de factura por cuenta
+3;Essap;4;Pago de Factura
+4;Personal;5;Pago de Factura - Telefonia
+4;Personal;6;Recarga de Saldo
+4;Personal;80;Pago de Factura - Personal Hogar
+4;Personal;404;Prueba
+5;TIGO;7;Pago de Factura - Telefonia
+5;TIGO;8;Recarga de Saldo
+6;Claro;9;Pago de Factura - Telefonia
+6;Claro;10;Recarga de Saldo
+6;Claro;31;Pago de Factura - Claro TV
+7;VOX;11;Pago de Factura
+7;VOX;12;Recarga de Saldo
+7;VOX;60;Pago de Factura
+8;TIGO STAR;13;Pago de Factura TV
+8;TIGO STAR;14;Pago de Factura
+9;Banco Basa S.A;15;Pago de Tarjeta
+9;Banco Basa S.A;576;Pago de tarjeta con C.I.
+10;Banco Atlas;16;Pago de Tarjeta
+10;Banco Atlas;52;Recarga de Tarjeta Pre Paga
+10;Banco Atlas;362;Recarga de Gift cards Club M
+10;Banco Atlas;575;Pago de tarjeta con C.I.
+11;BBVA;17;Pago de Tarjeta
+11;BBVA;253;Recarga de Tarjeta Pre Paga
+11;BBVA;605;Pago de tarjeta con C.I.
+12;Cefisa;18;Pago de Tarjeta
+13;Banco Continental;19;Pago de Tarjeta
+13;Banco Continental;54;Recarga de Tarjeta Pre Paga
+13;Banco Continental;214;Pago de Prestamo
+13;Banco Continental;578;Pago de tarjeta con C.I.
+14;Coop Coomecipar LTDA;20;Pago de Tarjeta
+14;Coop Coomecipar LTDA;201;Pago de Prestamos
+14;Coop Coomecipar LTDA;203;Aportes
+14;Coop Coomecipar LTDA;204;Solidaridad
+15;Coop Universitaria;21;Pago de Tarjeta
+15;Coop Universitaria;482;Pago de Aporte
+15;Coop Universitaria;483;Pago de Prestamos
+15;Coop Universitaria;484;Pago de Solidaridad
+16;Banco Familiar;22;Pago de Tarjeta
+16;Banco Familiar;115;Pago de Prestamos
+16;Banco Familiar;573;Pago de tarjeta con C.I.
+17;Banco GNB;23;Pago de Tarjeta
+17;Banco GNB;580;Pago de tarjeta con C.I.
+18;Banco RIO;24;Pago de Tarjeta
+18;Banco RIO;577;Pago de tarjeta con C.I.
+19;Banco Itau;25;Pago de Tarjeta
+19;Banco Itau;26;Recarga de Tarjeta Pre Paga
+19;Banco Itau;67;Pago de tarjeta con C.I.
+20;Banco Regional;27;Pago de Tarjeta
+20;Banco Regional;28;Recarga de Tarjeta Pre Paga
+20;Banco Regional;574;Pago de tarjeta con C.I.
+21;Banco Sudameris;29;Pago de Tarjeta Sudameris
+21;Banco Sudameris;53;Recarga de Tarjeta Pre Paga
+21;Banco Sudameris;96;Pago de tarjeta con C.I.
+21;Banco Sudameris;255;Pago de prestamo
+22;Vision Banco;30;Pago de Tarjeta
+22;Vision Banco;55;Recarga de Tarjeta Pre Paga
+22;Vision Banco;581;Pago de tarjeta con C.I.
+23;Financiera El Comercio;32;Pago de Tarjeta
+23;Financiera El Comercio;103;Pago de Prestamos
+24;Ara de Finanzas;33;Pago de Tarjeta
+25;Bancop;34;Pago de Tarjeta
+25;Bancop;579;Pago de tarjeta con C.I.
+26;Yanbal;35;Pago de Cuenta
+27;Colegio Santa Clara;36;Pago de Cuota
+28;Asoc del Colegio Internacional;37;Pago de Cuota
+29;Asismed;38;Pago de Factura
+30;Caja Mutual;39;Pago de Prestamo
+30;Caja Mutual;40;Pago de Aporte
+30;Caja Mutual;62;Pago de Tarjeta
+30;Caja Mutual;74;Pago de Tarjeta
+31;Solar;41;Pago de Tarjeta
+31;Solar;600;Pago de Prestamos
+32;Coop Fernando de la Mora LTDA;42;Pago de Tarjeta
+33;Coop Medalla Milagrosa LTDA;43;Pago de Tarjeta
+33;Coop Medalla Milagrosa LTDA;68;Pago de Prestamo
+34;Coop Copacons LTDA;44;Pago de Tarjeta
+35;Coop Multiactiva Luque LTDA;45;Pago de Tarjeta
+36;Coop San Cristobal LTDA;46;Pago de Tarjeta
+37;Interfisa Banco;47;Pago de Tarjeta
+37;Interfisa Banco;583;Pago de tarjeta con C.I.
+38;Caja Medica y de Profes Univer;48;Pago de Tarjeta
+39;Coop San Juan Bta LTDA;49;Pago de Tarjeta
+40;Coop Israelita LTDA;50;Pago de Tarjeta
+41;Financiera Rio;51;Pago de Tarjeta
+42;Credicentro;56;Pago de Tarjeta
+42;Credicentro;348;Pago de Prestamo
+43;Chacomer;61;Pago de Cuota
+44;Coopec LTDA;63;Pago de Tarjeta
+45;Bancard;64;Pago de Factura
+45;Bancard;186;Prueba Centro de Experiencia
+46;Tu Financiera;65;Pago de tarjeta
+46;Tu Financiera;206;Pago De Prestamos
+47;Universidad Americana;66;Pago de Aranceles
+48;FIC de Finanzas;69;Pago de Tarjeta
+49;Finexpar;70;Pago de Tarjeta
+49;Finexpar;609;Pago de Prestamos
+50;Informconf - Equifax;71;Pago de Facturas
+50;Informconf - Equifax;73;Pago de Facturas CB
+50;Informconf - Equifax;441;Pago de Reporte
+51;Pagos;76;Pago de Factura
+52;La Consolidada Seguros;77;Pago de Cuotas
+53;Monital;79;Pago de Cuota
+54;Crediclub;81;Pago de tarjeta
+54;Crediclub;262;Pago de cuota
+55;Regional Seguros;82;Pago de Poliza
+56;Aseguradora del Sur S.A.;83;Pago de poliza
+57;Universidad Catolica;84;Pago de Cuota
+57;Universidad Catolica;88;Pago Derecho Examen
+58;La Agricola Seguros;85;Pago de Poliza
+59;Nobleza Seguros;86;Pago de Poliza
+60;La Loteadora;87;Pago de Cuota
+61;Megaloi;89;Pago de Hosting y Dominio
+62;Aseguradora Tajy;90;Pago de Poliza
+62;Aseguradora Tajy;161;Recarga de Tarjeta Pre Paga
+63;Universidad UPAP;91;Pago de Cuota
+63;Universidad UPAP;92;Pago de Derecho a Examen
+64;Teleton;94;Compra de Adhesiones
+64;Teleton;383;Donacion
+65;Credisimple;97;Pago de Tarjeta
+65;Credisimple;101;Pago de Prestamos
+65;Credisimple;199;Credito Revolvente - Pago Preestablecido
+65;Credisimple;200;Credito Revolvente - Pago libre
+66;Universidad Desarrollo Sustentable;98;Aranceles
+67;Techo;99;Donacion
+67;Techo;225;Pago de cuota
+68;Apolo;100;Pago de tarjeta
+69;FundaProva;102;Donacion
+70;Rumbos Seguros;104;Pago de Poliza
+71;Foro de Emprendedores Industriales;105;Pago de Curso
+72;Asoleu;106;Donacion
+73;San Peregrino;107;Donacion
+74;Fundacion Rocio Cabriza;108;Donaciones
+75;La Hora De Las Compras;109;Pago de Cuotas
+76;Banco Nacional de Fomento;110;Pago de Tarjeta
+76;Banco Nacional de Fomento;582;Pago de tarjeta con C.I.
+77;Alto Impacto;111;Pago de Curso
+78;Gestion 21;112;Pago de Curso
+79;Fundacion Apostar por la Vida;113;Donacion
+80;Financiera Paraguayo Japonesa;114;Pago de Prestamos
+80;Financiera Paraguayo Japonesa;133;Pago de Tarjeta
+81;Futuro Sepelios;116;Pago de Servicios
+81;Futuro Sepelios;117;Pago de Parcelas
+81;Futuro Sepelios;118;Pago de Mantenimientos
+81;Futuro Sepelios;119;Pago de Titulos Innominados
+82;Sermed S.A.;120;Pago de Seguro Medico
+83;Municipalidad de Asuncion;121;Pago de Factura
+84;Legion de la Buena Voluntad;122;Donacion
+85;Tupi;123;Pago de Cuota
+86;Bella Vista;124;Pago de Cuota
+87;Schulz;125;Pago de cuota
+88;El Toke;126;Pago de cuota
+89;Carnaval Encarnaceno;127;Compra de entradas
+90;IPS Instituto de Prevision Social;128;IPS Pago de Aporte
+90;IPS Instituto de Prevision Social;129;IPS Pago de Alquileres
+91;Amazonas Express;130;Pago de producto
+92;Santa Clara Seguro;131;Pago de Factura
+93;Compania de Luz y Fuerza S.A.;132;Pago de Factura
+94;Asociacion Adoptame;134;Donacion
+95;Achon;135;Pago de anticipos
+95;Achon;136;Pago de cuota
+96;Nexoos;137;Invertir
+96;Nexoos;138;Pago de cuota
+97;Tarjetami;139;Pago de extractos
+97;Tarjetami;140;Pago de Tarjeta Prepaga
+98;Colegio Centro Educativo Los Laureles;141;Pago de cuota
+98;Colegio Centro Educativo Los Laureles;142;Pago de matricula
+99;Colegio Santa Caterina da Siena ;143;Pago de cuota
+100;CCPA Central;144;Pago de cuota
+100;CCPA Central;588;Pago de textos
+100;CCPA Central;620;Pago de 1o cuota + matricula
+100;CCPA Central;621;Pago de Curso Completo
+101;CCPA Villa Morra;145;Pago de factura
+101;CCPA Villa Morra;590;Pago de textos
+101;CCPA Villa Morra;623;Pago de Matricula
+102;CCPA San Lorenzo;147;Pago de factura
+102;CCPA San Lorenzo;591;Pago de textos
+103;CCPA Itapua;148;Pago de factura
+103;CCPA Itapua;589;Pago de textos
+104;CCPA Coronel Oviedo;149;Pago de factura
+104;CCPA Coronel Oviedo;586;Pago de textos
+105;CCPA Ciudad del Este;150;Pago de factura
+105;CCPA Ciudad del Este;585;Pago de textos
+106;CCPA Pilar;151;Pago de factura
+106;CCPA Pilar;587;Pago de textos
+107;Ministerio de Desarrollo Social;146;Pago de Cuota de Lote
+108;Aseguradora Yacyreta S.A;152;Pago de cuota
+109;Universidad San Carlos;153;Pago de cuota
+110;MAPFRE ;154;Pago de Poliza
+111;Procard;155;Pago de tarjeta
+111;Procard;156;Pago de prestamo
+111;Procard;247;Pago de facturas Procard
+112;FIFPY;157;Compra de entradas
+113;El aula de la franquicia;158;Compra de entradas
+114;Amnistia Internacional Paraguay;159;Donacion
+114;Amnistia Internacional Paraguay;162;Pago de aporte
+115;Centro Monsenor Bogarin;160;Pago de cuota
+116;Grupo H3;163;Pago de Tarjeta
+117;Cooperativa Villa Morra Ltda.;165;Pago de Tarjeta
+118;Fenix S.A de Seguros y Reaseguros;166;Pago de Poliza
+119;Po Paraguay;167;Pago de aporte
+119;Po Paraguay;168;Donacion
+120;Cooperativa San Pedro Ltda.;169;Pago de Tarjeta
+121;Fundacion Dequeni;170;Donacion
+121;Fundacion Dequeni;171;Pago de aportes
+121;Fundacion Dequeni;177;Compra de entrada - Noche Pan y Vino
+122;OAMI;172;Pago de cuota
+123;Equilibrio;173;Pago de curso
+124;Coop. Cumbre de la Coordillera LTDA.;174;Pago de extracto
+125;Activo Creditos;175;Pago de cuota
+126;Jardin de la Paz;176;Pago de cuota
+127;Progresar Corporation S.A;178;Pago de Tarjeta
+128;Pasfin;179;Pago de Tarjeta
+129;Fortaleza de Inmuebles;180;Pago de cuota
+130;Electroban;181;Pago de cuota
+131;Crediplus;182;Pago de Prestamo
+132;Coop. Pinoza;183;Pago de Tarjeta
+133;Prestigio Producciones;184;Compra de entrada - Robert Kiyosaki
+134;Olier;185;Pago de cuota
+135;Coop. Yoayu LTDA.;187;Pago de Tarjeta
+136;Instituto de Odontologia Avanzada;188;Pago de cuota
+136;Instituto de Odontologia Avanzada;189;Pago de matricula
+136;Instituto de Odontologia Avanzada;190;Pago de Titulo
+136;Instituto de Odontologia Avanzada;192;Pago de Servicios Varios
+137;Fundacion Operacion Sonrisa Paraguay;193;Aportes
+137;Fundacion Operacion Sonrisa Paraguay;194;Donacion
+138;Bigg Crossfit;195;Pago de cuota
+139;Crediflex;196;Pago de Prestamo
+140;Asuncion Center;197;Pago de cuota
+141;Fleming;198;Pago de cuota
+142;Promed;205;Pago de cuota
+143;BuscoInfo;207;Pago de Factura
+143;BuscoInfo;208;Pago inicial
+144;Puerto Caacupe-mi;209;Pago de factura
+145;Electrocenter;210;Pago de cuota
+146;Fast Credit;211;Pago de Tarjeta
+146;Fast Credit;363;Pago de cuota
+147;Coop. Ypacarai Ltda.;212;Pago de Tarjeta
+148;Cenit S.A de Seguros;213;Pago de Poliza
+149;Parque Serenidad;215;Pago de cuota
+150;Sonidos de la Tierra;216;Donaciones
+151;Lions Media Games;217;Pago de Factura
+152;Comprame Barato;218;Pago de factura
+153;Dinapi;219;Pago de tasas
+154;Tecnolandia;220;Pago de cuota
+155;La Paraguaya Inmobiliaria;221;Pago de cuota
+156;El Productor S.A. Seguros;222;Pago de Polizas
+157;Ailen Electrodomesticos;223;Pago de cuota
+158;Centro odontologico asistencial;224;Pago de cuota
+159;Artaza Hermanos;226;Pago de cuota
+160;Sendit;227;Pago de paquetes
+161;Colegio Frances;228;Pago de Cuota
+162;Colegio Instituto Cristiano Interactivo;229;Pago de cuota
+163;Seguros SEGESA;230;Pago de polizas
+164;El sol del Paraguay S.A de Seguros;231;Pago de Polizas
+165;Alex S.A;232;Pago de cuota
+166;FIUNA;233;Pago de Factura
+167;El comercio Paraguayo ;234;Pago de Polizas
+168;Liberato;235; Pago de cuota
+169;Plaza de los Mangos;236;Pago de cuota
+170;Electro Jet Electrodomesticos;237;Pago de cuota
+171;Koala;238;Pago de cuota
+172;Suenolar;239;Pago de cuota
+173;Crecer Inmobiliaria;240;Pago de cuota
+174;Zimple;241;Giro
+174;Zimple;242;Carga de Dinero
+174;Zimple;409;Recarga de Gitfcard Zimple
+174;Zimple;435;Giro - Recarga a otra billetera
+174;Zimple;436;Carga de Billetera
+175;Law y Medicine;243;Pago de cuota
+176;Fundacion Virgen de Fatima;244;Compra de entrada
+176;Fundacion Virgen de Fatima;256;Donacion
+177;Hostipy;245;Pago de cuota
+178;Credigrow;246;Pago de Tarjeta
+179;Royal Seguros;248;Pago de poliza
+180;La Independencia de Seguros ;249;Pago de poliza
+181;Club Deportivo Sajonia;250;Pago de cuota
+182;General Seguros;251;Pago de poliza
+183;Fane;252;Pago de extracto
+184;Wilmar Center;254;Pago de cuota
+185;Panal Seguros;257;Pago de poliza
+186;Taxit;258;Pago de factura
+187;SNPP;259;Pago de aranceles
+188;Raices;260;Pago de Cuota
+189;Prosperar Paraguay;261;Pago de Cuota
+190;Coop. Santisima Trinidad LTDA;263;Pago de Tarjeta
+191;Sarraff;264;Pago de Tarjeta
+192;Medilife;265;Pago de cuota
+193;Data Systems;266;Pago de cuota
+194;Seguridad Seguros;267;Pago de poliza
+195;Unimed;268;Pago de cuota
+196;Alianza Garantia Seguros y Reaseguros;269;Pago de Poliza
+197;Nueva Americana;270;Pago de extracto
+197;Nueva Americana;275;Pago de tarjeta con C.I.
+198;Touring y Automovil Club Paraguayo;271;Pago de cuota
+199;Efuneral;272;Pago de cuota
+200;Bristol;273;Pago de cuota
+201;Centro Educativo Sagrado Corazon de Jesus;274;Pago de cuota
+202;Unhuman;276;Pago de cuota
+203;Fast Box;277;Pago de factura
+204;Club Internacional de Tenis - CIT;278;Pago de cuotas
+204;Club Internacional de Tenis - CIT;598;Pago de Pagares
+205;Prosalud;279;Pago de cuota
+206;Clasipar;280;Pago de servicios
+207;Wevia;281;Pago de productos
+208;Fundacion del Clero Arquidiocesano;282;Pago de cuota
+209;De la Sobera;283;Pago de cuota
+210;ClinCaja;284;Pago de cuota
+211;Credisolucion;285;Pago de Cuotas
+212;Club Olimpia;286;Pago de Cuotas
+213;Colegio de Escribanos del Paraguay;287;Pago de inscripcion
+214;Facultad de Ciencias Economicas UNA;288;Pago de Factura - Pregrado
+214;Facultad de Ciencias Economicas UNA;289;Pago de Factura - Postgrado
+215;Colegio Dante Alighieri - Fdo de la Mora;290;Pago de Cuotas
+216;Colegio Dante Alighieri - Asuncion;291;Pago de Cuotas
+217;Ilpor Idiomas;292;Pago de Cuotas
+218;Aseguradora del Este;293;Pago de poliza
+219;Editorial Oceano;294;Pago de cuota
+220;InfoCasas;295;Pago de cuota
+221;Gonzalez Gimenez;296;Gonzalez Gimenez y Cia. SAC - CASA CENTRAL
+221;Gonzalez Gimenez;342;La Comercial Alcides Gonzalez SA - Km. 9 / CAPIATA
+221;Gonzalez Gimenez;343;GONGI SRL - LIMPIO
+221;Gonzalez Gimenez;344;Gonzalez Elizeche y Cia. SRL - MARIANO ROQUE ALONSO
+222;Fundacion Paraguaya;297;Pago de Cuotas
+223;Sol Telecomunicaciones;298;Pago de Cuotas
+224;Odontologia UNA;299;Pago de Factura
+225;Az Inversiones;300;Zenith - Pago de cuota
+225;Az Inversiones;301;Rembrandt - Pago de cuota
+226;Grupo Reimpex;302;Pago de cuota
+227;Propar Inmobiliaria;303;Pago de cuotas
+228;Catastro Ministerio de Hacienda;304;Pago de tramites en linea
+229;Centro de experiencia;305;Prueba Centro de Experiencia
+230;Centro Educ. Metodista Nuevo Horizonte;306;Pago de cuota
+231;PASAPORTE;307;Pasaporte
+232;Derecho UNA;308;Pago de Factura
+233;Politecnica UNA;309;Pago de Factura
+234;Ministerio de trabajo. MTESS;310;Compra de Hojas
+234;Ministerio de trabajo. MTESS;311;Pago de Multas
+234;Ministerio de trabajo. MTESS;312;Pago de Certificado Laboral
+234;Ministerio de trabajo. MTESS;313;Registros, Formularios y Constancias
+235;Colegio San Jose;314;Pago de Aranceles
+235;Colegio San Jose;315;Pago de Cuotas Gimnasio
+236;Rent Tax;316;Pago de factura
+237;Sanatorio Migone;317;Pago de cuota
+238;Coop. Serrana;318;Pago de extracto
+239;Tempus Net;319;Pago de cuota
+240;Luminotecnia;320;Pago de Cuotas
+241;Samedic;322;Pago de Cuotas
+242;Distrisol;321;Pago de Cuotas
+243;Lumicorp;323;Pago de Cuotas
+244;Fundacion Via Pro Desarrollo;324;Pago Cuota
+245;Simple SA;325;Pago de cuota
+245;Simple SA;527;Pago de Tarjeta
+246;Vida;326;Pago de cuotas
+247;Club Cerveceros;328;Pago de membresia
+248;Universidad UNAE;329;Pago de cuota
+249;Pink Garden;330;Pago de cuota
+250;Corporacion del Presidente;331;Donaciones
+250;Corporacion del Presidente;594;Donacion
+251;SENACSA;332;Pago de guias
+251;SENACSA;407;Pago de Liquidacion
+252;Pago Facil;333;Pago de Cuotas
+253;Reyva;334;Pago de Cuota
+254;Unibe;335;Pago de cuota Sede Central
+254;Unibe;336;Pago de cuota Sede San Lorenzo
+255;Escuela Judicial;337;Formacion Inicial
+255;Escuela Judicial;338;Formacion Continua
+256;MIKASA S.A;339;Pago de Cuotas
+257;NDL;340;Pago de cuota
+258;Reutilizar;341;Pago de cuota
+259;Sports Revolution;345;Pago de Inscripcion
+260;Asuncion Runners;346;Pago de Inscripcion
+261;Nuestra Senora de la Asuncion;347;Pago de Reserva
+262;Facultad de Ciencias Quimicas - UNA;351;Pago de Cuotas
+263;UNICEF;349;Compra de entradas
+264;Universidad Autonoma de Asuncion;350;Pago Cuota
+266;Studio Center;352;Pago de Cuotas
+267;Trek;353;Pago de cuota
+268;Alianza Francesa;354;Pago de Cuotas
+268;Alianza Francesa;355;Pago de Matricula
+268;Alianza Francesa;356;Pago de Libros
+269;FANAC;357;Donacion
+269;FANAC;358;Pago de Aportes
+270;FACEN UNA;359;Pago de facturas
+271;Patrulla Caminera;360;Pago de Multa Caminera
+271;Patrulla Caminera;361;Pago de Multa Bascula
+272;Maker S.A;364;Pago de servicios
+273;Pagopar;365;Pago de Cuota por N de pedido
+273;Pagopar;563;Pago de cuota por Cedula
+274;TV Cable del Norte Multimedia;366;Pago de facturas
+275;TV Cable Capiibary;367;Pago de facturas
+276;Asoc.Esc.Cientifica Basilio;372;Donaciones
+277;CrediPro;368;Pago de prestamos
+278;Creditotal;369;Pago de Prestamos
+279;Grupo MV;370;Pago de Cuota
+280;Fundacion Club Cerro Porteno;371;Donaciones
+281;Atalaya S.A de Seguros;373;Pago de Poliza
+282;Terrae S.A.;374;Pago de Prestamo
+283;Club Nautico San Bernardino;375;Pago de Cuotas
+283;Club Nautico San Bernardino;379;Pago de Embarcacion
+284;PREDENT S.A.;376;Pago de servicios
+285;Colegio de la Asuncion;377;Pago de Cuota
+286;Universo Electrodomesticos;378;Pago de Cuotas
+287;Casa Rosada S.A;380;Pago de Cuota
+288;TECHCOB S.R.L.;381;Pago de Factura
+289;Valenzuela Amoblamientos;382;Pago de facturas
+290;GTP - Global tracking Paraguay;384;Pago de Cuotas
+291;Ruben Dario Comercial;385;Pago de Cuotas
+292;Centro Paraguayo Japones;386;Pago de cuotas
+292;Centro Paraguayo Japones;387;Pago de eventos
+293;Colegio Gimnasio Del Saber;388;Pago de Cuotas
+294;School of Tomorrow;389;Pago de Cuotas
+295;ASO EXA CTN;390;Pago de servicios
+296;Che Kamba S.R.L;391;Pago de cuotas
+297;Credito Guarani;392;Pago de cuotas
+298;Electro Hogar;393;Pago de Cuotas
+299;Stilo Hogar;394;Pago de Cuotas
+300;Jac;395;Pago de cuota
+301;Forland;396;Pago de cuota
+302;Maruti;397;Pago de cuota
+303;Changhe;399;Pago de cuota
+304;Leopard;398;Pago de cuota
+305;Universidad Columbia;400;Pago de Matricula
+305;Universidad Columbia;401;Pago de Cuota
+305;Universidad Columbia;402;Pago de Derecho a Examen
+306;Odontos;403;Pago de cuota
+307;SET;405;Pago Tributos
+307;SET;602;Instrumentos de Control
+308;Herbalife;406;Pago de Factura
+309;Rectorado UNA;408;Pago de Aranceles
+310;REMAX;410;Pago de Factura
+311;Jardin Paraiso;411;Pago de cuota
+312;Colegio Santo Domingo Savio;412;Pago de cuotas
+313;Zulia Electrodomesticos;413;Pago de cuota
+314;James Paraguay;414;Pago de cuota
+315;Bomberos Voluntarios de Villarrica;415;Donacion
+316;Mujeres de esperanza;416;Donacion
+317;AMSSE - Asistencia Medica San Sebastian;417;Pago de cuota
+319;Cablemas;418;Pago de Servicios
+320;Paraguay Banda Ancha;419;Pago de Servicios
+321;Lote Propio Inmobiliaria;420;Pago de Cuotas
+322;GlobalBox;421;Pago de Facturas
+323;El colchonero Gonzalez;422;Pago de cuota
+324;Nasser Cubiertas S.A.C.I.;423;Pago de cuota
+325;Comdetur S.R.L;424;Pago de cuota
+327;Municipalidad de Eusebio Ayala;425;Pago de Impuestos y Tasas
+328;Salud Protegida;426;Pago de cuota
+329;Universidad Comunera;427;Pago de cuotas
+330;Frontliner;428;Pago de cuotas
+331;Multiunion S.A;429;Pago de cuotas
+332;Canelas Holding;430;Pago de cuotas
+333;Tilli;431;Pago de cuotas
+334;La Cabina;432;Pago de cuotas
+335;Eduardo Benitez Elizeche SAC;433;Pago de cuotas
+336;Viva Bien S.A;434;Pago de cuotas
+337;Municipalidad de Villa Elisa;437;Pago de Impuestos y Tasas
+338;Ministerio del Ambiente y Desarrollo Sos;438;Pago de Liquidacion - MADES
+339;Instituto ILES;439;Pago de cuota
+340;Amarall;440;Pago de Facturas
+341;Marsal;442;Pago de Cuotas
+342;Gemar Comunicaciones;443;Pago de facturas
+343;Plus Net;444;Pago de cuota
+344;Municipalidad de Hernandarias;445;Pago de tasas e impuestos
+345;Sancor Seguros;446;Pago de Poliza
+346;Diaconia ADP;447;Donaciones
+347;Colegio Bautista Encarnacion;448;Pago de cuota
+348;Omars Artes Marciales;449;Pago de cuota Gimnasio
+349;San Ignacio de Loyola School;450;Pago de Mensualidad
+349;San Ignacio de Loyola School;451;Pago de Materiales
+349;San Ignacio de Loyola School;452;Pago de Libros
+349;San Ignacio de Loyola School;453;Pago de otros ingresos
+350;San Jorge servicios de sepelios;454;Pago de cuotas
+350;San Jorge servicios de sepelios;455;Pago de cuota sepelio
+351;CUSAT;456;Pago de cuota
+352;Helware software;457;Pago de cuotas
+353;Santa Clara Rugby y Hockey Club;458;Pago de cuotas
+354;Superior Life;459;Pago de cuotas
+355;Skillus;460;Pago de cuotas
+356;Mujeres de carrera;461;Pago de inscripcion
+357;Credimarket;462;Pago de cuotas
+358;Crediagil;463;Pago de Cuotas
+359;Fiadonet;464;Pago de cuotas
+360;Colegio San Cristobal;465;Pago de Cuota
+361;Polkisquad;466;Donacion
+362;WLatinoamerica;467;Pago de cursos
+363;Mariana S.A;468;Pago de cuotas
+364;Che duo;469;Pago de cuotas
+365;NIC.PY;470;Pago de Dominios
+366;Mas Internet;471;Pago de cuota
+367;Colegio San Miguel Garicoits;472;Pago de cuota
+368;FCE UNA Caacupe;473;Pago de Factura
+369;FCE UNA Paraguari;474;Pago de Factura
+370;FCE UNA Villa Hayes;475;Pago de Factura
+371;FCE UNA Santani;476;Pago de Factura
+372;FCE UNA Cnel. Oviedo;477;Pago de Factura
+373;FCE UNA Caaguazu;478;Pago de Factura
+374;Municipalidad de Mariano Roque Alonso;479;Pago de Impuestos, multas y tasas
+375;Municipalidad de Saltos del Guaira;480;Pago de Impuestos, multas y tasas
+376;Credimass;481;Pago de cuota
+377;Mas tarjeta Billetaje;485;Recarga de Tarjeta
+378;Alarmas;486;Pago de cuota
+379;Ipebras;487;Pago de Cuotas
+380;EPEM Odontologico;488;Pago de cuota
+381;Cumplo;489;Pago de prestamos
+382;Desarrollo en democracia;490;Donacion
+383;Autofacil;491;Pago de cuotas
+384;Punto House;492;Pago de cuotas
+385;M y M odontoclinica;493;Pago de cuota
+386;El Ocaso;494;Pago de cuota
+387;AFEMEC;508;Pago de cuota
+388;EPEM Medicina prepaga;495;Pago de cuota
+389;NETI;496;Pago de cuotas
+390;Credito amigo;497;Pago de cuota
+391;Electromax;498;Pago de Cuotas
+392;Fundacion San Pio de Pietrelcina;499;Donacion
+393;Universidad Catolica Guarambare;500;Pago de Cuota
+394;Universidad Catolica Caacupe;501;Pago de Cuota
+395;Exa Xto Rey Cooperativa;502;Pago de prestamos
+395;Exa Xto Rey Cooperativa;503;Pago de aportes
+395;Exa Xto Rey Cooperativa;504;Pago de solidaridad
+396;Pro riego;505;Pago de cuota
+397;Abas Inmobiliaria;506;Pago de Cuota
+398;Metal Plast;507;Pago de cuota
+399;Ministerio de Salud Publica y Bienestar;509;Pago de Visaciones de Reposos
+399;Ministerio de Salud Publica y Bienestar;510;Pago de Renovacion de Registros Profesionales
+399;Ministerio de Salud Publica y Bienestar;603;CONAREM - Derecho a Examen - 350.000 Gs
+400;SEMEI;511;Pago de Cuota
+401;Multired de pagos;512;Pago de cuota
+402;Municipalidad de Lambare;513;Pago de Impuesto Normal
+402;Municipalidad de Lambare;514;Pago de Impuesto Financiado
+402;Municipalidad de Lambare;515;Pago de Impuesto Normal
+402;Municipalidad de Lambare;516;Pago de Impuesto Financiado
+403;Facultad de Ciencias Veterinarias UNA;517;Pago de Aranceles
+404;Paraway Holding;518;Pagos de Facturas
+405;PET BOX;519;Pago de Cuota
+407;Allianza Insurance Brokers;520;Pago de Cuota
+408;Aimax Internet;521;Pago de cuota
+409;Billio;522;Pago Cuota
+410;Jardin de Infantes Pequenines;523;Pago Cuota
+411;Consultora Virtus Asociados;524;Pago Cuota
+411;Consultora Virtus Asociados;604;Pago de Talleres
+412;Servicio de Proteccion a la Salud SPS;525;Pago de cuota
+413;Prosegur Alarmas;526;Pago de cuota
+414;Fundacion el arte de vivir;528;Donacion
+415;Aso exa Colegio Cristo Rey;529;Pago de cuota
+415;Aso exa Colegio Cristo Rey;530;Otros Servicios
+416;Punto Box;531;Pago de Cuota
+417;Red Salud;532;Pago de cuota
+418;Kube;533;Pago de Cuota
+419;ASEPASA;534;Pago de poliza
+420;UniNorte Asuncion;535;Pago de cuota
+420;UniNorte Asuncion;628;Pago de Matricula
+421;UniNorte Caacupe;536;Pago de cuota
+421;UniNorte Caacupe;629;Pago de Matricula
+422;Koeju Red de Contencion Social y Economi;537;Cuota servicio funerario
+422;Koeju Red de Contencion Social y Economi;538;Pago de Gastos Judiciales
+422;Koeju Red de Contencion Social y Economi;539;Pago Gastos de mandato
+423;UniNorte Caaguazu;540;Pago de cuota
+423;UniNorte Caaguazu;630;Pago de Matricula
+424;UniNorte Ciudad del Este;541;Pago de cuota
+424;UniNorte Ciudad del Este;631;Pago de Matricula
+425;UniNorte Concepcion;542;Pago de Cuota
+425;UniNorte Concepcion;632;Pago de Matricula
+426;UniNorte Luque;543;Pago de Cuota
+426;UniNorte Luque;633;Pago de Matricula
+427;UniNorte Curuguaty;544;Pago de Cuota
+427;UniNorte Curuguaty;634;Pago Matricula
+428;UniNorte Encarnacion;545;Pago de Cuota
+428;UniNorte Encarnacion;639;Pago de Matricula
+429;UniNorte Villa Hayes;546;Pago de cuota
+429;UniNorte Villa Hayes;640;Pago de Matricula
+430;TV Max;547;Pago de Cuota
+431;UniNorte Ita;548;Pago de cuota
+431;UniNorte Ita;638;Pago de Matricula
+432;UniNorte Itaugua;549;Pago de cuota
+432;UniNorte Itaugua;637;Pago de Matricula
+433;UniNorte Villarrica;550;Pago de cuota
+433;UniNorte Villarrica;636;Pago de Matricula
+434;UniNorte Pedro Juan Caballero;551;Pago de cuota
+434;UniNorte Pedro Juan Caballero;635;Pago de Matricula
+435;Target Internacional Trading;552;Pago de cuota
+436;GPS;553;Pago de cuota
+437;Inmobiliaria del Este S.A.;554;Pago de Cuotas
+438;Car Track;561;Pago de cuota
+439;Coopexsanjo Ltda.;555;Pago de Extracto
+440;Menu XD;556;Pago de cuota
+441;Odonto Excellence - Luque;557;Pago de Cuota
+442;Odonto Excellence - Villa Morra;558;Pago de Cuota
+443;Asociacion de Obstetras del Py;559;Pago de Cuota
+444;Paraguay Cultural Exchange;560;Pago de cuota
+445;El Financiero;562;Pago de cuota
+446;Trovari S.A;564;Recarga de chequera
+447;Tape Ruvicha S.A.;565;Pago de Cuotas
+448;JD Clinica Odontologica;566;Pago de cuotas
+449;Colegio Cristiano Arte;567;Pago de cuotas
+450;Line;568;Pago de cuota
+451;GEOMOVIL;569;Pago de cuotas
+452;SEVIPAR;570;Pago de cuota
+453;College de L Immaculee Conception;571;Pago de cuota
+454;EPEM servicio de medicina estetica;572;Pago de cuota
+455;Club Deportivo Aleman;584;Pago de Cuota
+456;PAC S.A.;592;Pago de cuota
+457;LAB S.A.;593;Pago de cuota
+458;La Iglesia de Jesucristo SUD;596;Donacion
+459;Sallustro Y Compania S.A.;595;Recarga de Gift Cards
+460;Colegio S. C. J. Salesianito;597;Pago de cuota
+461;Poga;599;Pago de Renta
+462;Parehara;601;Pago de cuota
+463;EMSA Inmobiliaria;606;Pago de Cuotas
+464;Cristo Rey Rugby Club;607;Pago de cuota
+465;Ingenieria y Servicios;608;Pago de servicios
+466;Automotor S.A.;614;Pago de Cuota
+467;Club Nautico puerto del Lago;610;Pago de cuota
+468;Municipalidad de Ciudad del Este. CDE;611;Pago de Impuesto Inmobiliario
+468;Municipalidad de Ciudad del Este. CDE;612;Pago de Patente Comercial
+469;RegisTicket;613;Inscripcion a Evento
+470;Fundacion Sagrado Corazon;615;Donacion
+471;I.S.DE SCHOENSTATT H.DE MARIA;616;Pago de cuota
+472;Colegio Apostolico San Jose;617;Pago de Cuota
+473;Arsoft;618;Pago de Servicio
+474;Servicronos;619;Pago de inscripcion
+476;Inverfin;622;Pago de cuota
+477;Rieder y Cia;624;Pago de cuotas
+478;Motormarket;625;Pago de Cuotas
+479;Rieder Internet;626;Pago de factura
+480;Todos por Paraguay;627;Donacion
+481;Mutual de Anestesiologos del Paraguay;641;Pago de Tarjeta
+482;LUX del Paraguay S.A.;642;Pago de cuota
+483;Colegio Japones Paraguayo;643;Pago de Cuota
