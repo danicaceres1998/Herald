@@ -226,9 +226,9 @@ class EmailSender
     # Sending the email
     begin
       mail.deliver!
-      Logger.log("SUCCESS #{Time.now.strftime('%Y%m%d%H%M')} -> Entities emails sended to: #{contacts.join('; ')}")
+      Logger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{contacts.join('; ')}")
     rescue
-      Logger.log("ERROR #{Time.now.strftime('%Y%m%d%H%M')} -> Unable to send Entities emails to: #{contacts.join('; ')}")
+      Logger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities emails to: #{contacts.join('; ')}")
     end
   end
 
@@ -250,9 +250,9 @@ class EmailSender
     # Sending the email
     begin
       mail.deliver!
-      Logger.log("SUCCESS #{Time.now.strftime('%Y%m%d%H%M')} -> Biller Emails sended to: #{contacts.join('; ')}")
+      Logger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}")
     rescue
-      Logger.log("ERROR #{Time.now.strftime('%Y%m%d%H%M')} -> Unable to send Biller emails to: #{contacts.join('; ')}")
+      Logger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller emails to: #{contacts.join('; ')}")
     end
   end
 
