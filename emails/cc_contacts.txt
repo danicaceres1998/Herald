@@ -1,0 +1,4 @@
+servicios.digitales@bancard.com.py
+cacinterno@bancard.com.py
+monitoreotecnico@bancard.com.py
+FacturadoresBC@bancardpy.onmicrosoft.com

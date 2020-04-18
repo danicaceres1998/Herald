@@ -4,7 +4,7 @@ require 'mail'
 require "readline"
 
 # Modules
-module Logger
+module MyLogger
   @DIR_HIS_LOG = './logs/history.log'
   @MAX_BITS = 3145728
   @file = nil
@@ -75,7 +75,7 @@ class Herald
     petition += "'extra_product_params[group]=notification_message' -F 'extra_product_params[params][message]="
     petition += "El servicio #{biller_name} - #{product_name} se encuentra en mantenimiento, lo estaremos restableciendo en la brevedad posible' -k"
     puts petition
-    #system(petition)
+    system(petition)
   end
 
   # Function that returns names of the billers
@@ -137,7 +137,7 @@ class Herald
       self.disable_service(row[2], row[1], row[3])
     end
     # Saving all the facts
-    Logger.init_log("The user: #{@user_email}\nDisabled the products of: #{@biller[0]['name_brand']}")
+    MyLogger.init_log("The user: #{@user_email}\nDisabled the products of: #{@biller[0]['name_brand']}")
     # Getting the biller emails
     30.times {print '-'}; puts
     print "\nIngrese los emails de los facturadores (separado por '; '): "
@@ -158,7 +158,8 @@ class Herald
     @biller.each {|row| products.push("ID: #{row[2]}\tNombre: #{row[3]}")}
     @email_sender.send_email_entities(@user_email, @biller[0]['name_brand'], products, error.join("\n"))
     # Finishing all
-    Logger.last_log
+    MyLogger.last_log
+    puts "\nINFO: Procesos Finalizados Correctamente!"; puts
   end
 
 end
@@ -168,43 +169,42 @@ class EmailSender
   @@DIR_EMAIL_ENTITIES = './emails/entities_email.txt'
   @@DIR_EMAIL_BILLER = './emails/biller_email.txt'
   @@DIR_CCO_ENTITIES = './emails/entities_contacts.txt'
+  @@DIR_CC_CONTACTCS = './emails/cc_contacts.txt'
 
   def initialize
     @entities_contacts = []
+    @cc_contacts = []
   end
 
   def read_email_entities(biller_name, products, error)
     # Getting the message
     message = Time.now.strftime('%H').to_i < 12 ? 'Buenos dias' : 'Buenas Tardes'
-    File.foreach(@@DIR_EMAIL_ENTITIES) do |line|
-      message += line
-    end
+    File.foreach(@@DIR_EMAIL_ENTITIES, "r:UTF-8")  {|line| message += line}
     # Changing the message
     message['BILLER'] = biller_name
     message['ERROR_LOG'] = error
     brand_product = ''
     products.each {|prd| brand_product += "#{biller_name} -> #{prd}\n"}
     message['BILLER_PRODUCTS'] = brand_product
-    puts message
+    # Returning the message
+    message
   end
 
   def read_email_biller(biller_name, error)
     # Getting the message
     message = Time.now.strftime('%H').to_i < 12 ? 'Buenos dias' : 'Buenas Tardes'
-    File.foreach(@@DIR_EMAIL_BILLER) do |line|
-      message += line
-    end
+    File.foreach(@@DIR_EMAIL_BILLER, "r:UTF-8")  {|line| message += line}
     # Changing the message
     message['BILLER'] = biller_name
     message['ERROR_LOG'] = error
-    puts message
+    # Returning the message
+    message
   end
 
-  def get_cco_contacts
-    File.foreach(@@DIR_CCO_ENTITIES) do |line|
-      @entities_contacts.push(line)
+  def get_contacts(path, contacts)
+    File.foreach(path) do |line|
+      contacts.push(line)
     end
-    puts "#{@entities_contacts}"
   end
 
   def send_email_entities(user_email, biller_name, products, error)
@@ -220,15 +220,19 @@ class EmailSender
       subject  "Avisos API Entidades - #{biller_name}"
       body     message
     end
+    mail.charset = 'UTF-8'
+    mail.content_transfer_encoding = '8bit'
     # Hidden Copy
-    self.get_cco_contacts
-    mail.bcc = @entities_contacts
+    self.get_contacts(@@DIR_CCO_ENTITIES, @entities_contacts)
+    mail.bcc = @entities_contacts.join('; ')
     # Sending the email
     begin
       mail.deliver!
-      Logger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{contacts.join('; ')}")
-    rescue
-      Logger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities emails to: #{contacts.join('; ')}")
+      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{@entities_contacts.join('; ')}"
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{@entities_contacts.join('; ')}")
+    rescue Exception => msg
+      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities emails to: #{@entities_contacts.join('; ')}"
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Entities emails to: #{@entities_contacts.join('; ')}")
     end
   end
 
@@ -245,14 +249,20 @@ class EmailSender
       subject  "Avisos Facturadores - #{biller_name}"
       body     message
     end
+    mail.charset = 'UTF-8'
+    mail.content_transfer_encoding = '8bit'
     # Contacts of the Biller
-    mail.to = contacts
+    mail.to = contacts.join('; ')
+    self.get_contacts(@@DIR_CC_CONTACTCS, @cc_contacts)
+    mail.cc = @cc_contacts.join('; ')
     # Sending the email
     begin
       mail.deliver!
-      Logger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}")
-    rescue
-      Logger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller emails to: #{contacts.join('; ')}")
+      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}"
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}")
+    rescue Exception => msg
+      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller emails to: #{contacts.join('; ')}"
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Biller emails to: #{contacts.join('; ')}")
     end
   end
 

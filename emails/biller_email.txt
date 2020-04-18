@@ -3,7 +3,7 @@ Informamos que el servicio de BILLER, se encuentra con inconvenientes. Detallo a
 
 ERROR_LOG
 
-Procedimos a colocar un mensaje personalizado de mantenimiento para los usuarios mientras no se disponibilice el servicio, de esta manera evitaremos reclamos masivos por parte de los usuarios.
+Procedimos a colocar un mensaje personalizado de mantenimiento para los usuarios, hasta tanto se normalice el servicio, de esta manera evitaremos reclamos masivos por parte de los mismos.
 ¿Podrían ayudarnos a verificar por favor e informarnos para luego poder disponibilizarlo nuevamente?
 
 Desde ya, muchas gracias por la ayuda.
