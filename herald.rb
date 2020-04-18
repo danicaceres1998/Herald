@@ -30,25 +30,29 @@ class Herald
   @@CANT_BITS = 3145728
   @@DIR_DB = './data/data.csv'
   @@EMAILS = %w[
-    jose.cantero@bancard.com.py
-    juan.ojeda@bancard.com.py
     natasha.correa@bancard.com.py
     carlos.villalba@bancard.com.py
+    juan.ojeda@bancard.com.py
+    jose.cantero@bancard.com.py
   ]
 
   def initialize
     @email_sender = EmailSender.new()
     @user_email = ''
     @biller_contacts = ''
+    @id_brand = nil
+    @biller = nil
   end
 
   # Function that disable one service
   def disable_service(id_product, biller_name, product_name)
+    puts "\nDisabling service ..."
     petition = "curl -X POST -u 'apps/i9Pc7v5W8m4jVaPc51a14RiA5K8TLGmy:59fRSmdYHljB.Yew6wCGdRTADF6eSCwc05gXnCfs' "
-    petition += "https://10.10.17.104:4481/billing/api/0.2/extra_product_params -F 'extra_product_params[product_id]=#{product_id}' -F "
+    petition += "https://10.10.17.104:4481/billing/api/0.2/extra_product_params -F 'extra_product_params[product_id]=#{id_product}' -F "
     petition += "'extra_product_params[group]=notification_message' -F 'extra_product_params[params][message]="
     petition += "El servicio #{biller_name} - #{product_name} se encuentra en mantenimiento, lo estaremos restableciendo en la brevedad posible' -k"
-    system(petition)
+    puts petition
+    #system(petition)
   end
 
   # Function that returns names of the billers
@@ -65,28 +69,53 @@ class Herald
   end
 
   # Function that returns ids of the selected products
-  def get_ids_products
-    table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';')
+  def get_biller(id_biller)
+    begin
+      # Returns -> table[0]: id_br | table[1]: name_br | table[]2: id_prd | table[3]: name_prd
+      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';')
+    rescue CSV::MalformedCSVError
+      quote_chars.empty? ? raise : retry
+    end
+    biller = table.select {|row| row[0] == id_biller}
+    puts biller
+    biller
   end
-
+  
   def main
-    Logger.log('============================================================')
+    #Logger.log('============================================================')
     60.times {print '='}
     puts "\nLista de Correos:"
     30.times {print '-'}; puts
-    @@EMAILS.length.times {|num| puts "*-) #{@@EMAILS[num]} -> #{num+1}"}
+    @@EMAILS.length.times {|num| puts "*-) #{@@EMAILS[num]} ->\t#{num+1}"}
     print "\nIngrese el numero de su email: "
     @user_email = @@EMAILS[gets.chomp.to_i-1]
-    biller_name = ''
+    puts "\nEmail to use -> #{@user_email}"
+    # Searching the biller ID
     loop do
       puts "\nBuscar Facturador:"
       30.times {print '-'}; puts
       print "\nIngrese el nombre del facturador: "
       response = gets.chomp
-      break unless response.downcase != 'q'
+      @id_brand = response
+      break unless response.to_i == 0
       list_billers = self.search_billers(response)
-      list_billers.each {|row| puts "*-) #{row}"}
+      # row[0]: ID | row[1]: name_brand
+      list_billers.each {|row| puts "*-) ID: #{row[0]}\tName: #{row[1]}"}
+      print "\nOBS: Si desea salir ingrese el ID del facturador"
     end
+    # Getting the biller
+    @biller = self.get_biller(@id_brand)
+    if @biller.empty?
+      puts "No se encontro el Facturador, vuelva a intentar"; exit
+    end
+    # Disabling the service
+    self.disable_service(@biller[0]['id_prd'], @biller[0]['name_brand'], @biller[0]['name_prd'])
+    # Sending te email to the biller
+    print "Ingrese los emails de los facturadores (separado por ';'): "
+    @biller_contacts = gets.chomp
+    @email_sender.send_email_biller(@user_email, biller[0]['name_brand'], @biller_contacts.split('; '))
+    # Sending the email to the entities
+    @email_sender.send_email_entities(@user_email, @biller[0]['name_brand'])
   end
 
 end
