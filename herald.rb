@@ -100,9 +100,19 @@ class Herald
     end
     biller = table.select {|row| row[0] == id_biller}
   end
-  
+
   # Main Function
   def main
+    60.times {print '='}
+  end
+
+  # Function for active a biller
+  def active_biller
+    
+  end
+  
+  # Function for disable a biller
+  def disable_biller
     60.times {print '='}
     puts "\nLista de Correos:"
     30.times {print '-'}; puts
