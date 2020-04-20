@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # Gems
 require 'csv'
 require 'mail'
@@ -5,7 +6,7 @@ require "readline"
 
 # Modules
 module MyLogger
-  @DIR_HIS_LOG = './logs/history.log'
+  @DIR_HIS_LOG = '/home/sodepusr/Herald/logs/history.log'
   @MAX_BITS = 3145728
   @file = nil
 
@@ -51,7 +52,7 @@ end
 class Herald
   # Class Constants
   @@CANT_BITS = 3145728
-  @@DIR_DB = './data/data.csv'
+  @@DIR_DB = '/home/sodepusr/Herald/data/data.csv'
   @@EMAILS = %w[
     natasha.correa@bancard.com.py
     carlos.villalba@bancard.com.py
@@ -80,9 +81,10 @@ class Herald
 
   # Function that returns names of the billers
   def search_billers(biller_name)
+    quote_chars = %w[" | ~ ^ & *]
     begin
       # Returns -> row[0]: id_br | row[1]: name_br | row[2]: id_prd | row[3]: name_prd
-      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';')
+      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';', quote_char: quote_chars.shift)
     rescue CSV::MalformedCSVError
       quote_chars.empty? ? raise : retry
     end
@@ -92,17 +94,19 @@ class Herald
 
   # Function that returns ids of the selected products
   def get_biller(id_biller)
+    quote_chars = %w[" | ~ ^ & *]
     begin
       # Returns -> table[0]: id_br | table[1]: name_br | table[2]: id_prd | table[3]: name_prd
-      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';')
+      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';', quote_char: quote_chars.shift)
     rescue CSV::MalformedCSVError
       quote_chars.empty? ? raise : retry
     end
     biller = table.select {|row| row[0] == id_biller}
   end
-  
+
   # Main Function
   def main
+    system('clear')
     60.times {print '='}
     puts "\nLista de Correos:"
     30.times {print '-'}; puts
@@ -114,13 +118,15 @@ class Herald
     loop do
       puts "\nBuscar Facturador:"
       30.times {print '-'}; puts
-      print "\nIngrese el nombre del facturador: "
+      print "\nIngrese el nombre del facturador o su ID: "
       @id_brand = gets.chomp
       break unless @id_brand.to_i == 0
       list_billers = self.search_billers(@id_brand)
+      puts "\nResultado de la busqueda:"
+      30.times {print '-'}; puts
       # row[0]: ID | row[1]: name_brand
       list_billers.each {|row| puts "*-) ID: #{row[0]}\tNombre: #{row[1]}"}
-      print "\nOBS: Si desea salir ingrese el ID del facturador"
+      puts "\nOBS: Si desea elegir el facturador ingrese el ID del mismo!"
     end
     # Getting the biller
     @biller = self.get_biller(@id_brand)
@@ -128,7 +134,8 @@ class Herald
       puts "No se encontro el Facturador, vuelva a intentar"; exit
     end
     # Showing the products
-    puts "\nSe desabilitara los productos de: #{@biller[0]['name_brand']}"
+    puts "\nSe desabilitaran los productos de: #{@biller[0]['name_brand']}"
+    60.times {print '-'}; puts
     @biller.each {|row| puts "*-) ID: #{row[2]}\tNombre: #{row[3]}"}
     print "\nDesea continuar y/n: "
     exit unless gets.chomp.downcase == 'y'
@@ -136,17 +143,17 @@ class Herald
     @biller.each do |row|
       self.disable_service(row[2], row[1], row[3])
     end
-    # Saving all the facts
+    # Saving all the actions
     MyLogger.init_log("The user: #{@user_email}\nDisabled the products of: #{@biller[0]['name_brand']}")
     # Getting the biller emails
-    30.times {print '-'}; puts
-    print "\nIngrese los emails de los facturadores (separado por '; '): "
+    60.times {print '-'}; puts
+    print "\nIngrese los emails de los contactos de los facturadores (separados por '; '): "
     @biller_contacts = gets.chomp
     # Getting the error to send
     error = []
     30.times {print '-'}; puts
     print "\nCopie y pegue aqui el error:"
-    puts "\nOBS: Para salir ingrese -> q"
+    puts "\nOBS: Para continuar ingrese -> q"
     while buf = Readline.readline("> ", true)
       break if buf == 'q'
       error.push(buf)
@@ -166,10 +173,10 @@ end
 
 class EmailSender
   # Class Constants
-  @@DIR_EMAIL_ENTITIES = './emails/entities_email.txt'
-  @@DIR_EMAIL_BILLER = './emails/biller_email.txt'
-  @@DIR_CCO_ENTITIES = './emails/entities_contacts.txt'
-  @@DIR_CC_CONTACTCS = './emails/cc_contacts.txt'
+  @@DIR_EMAIL_ENTITIES = '/home/sodepusr/Herald/emails/entities_email.txt'
+  @@DIR_EMAIL_BILLER = '/home/sodepusr/Herald/emails/biller_email.txt'
+  @@DIR_CCO_ENTITIES = '/home/sodepusr/Herald/emails/entities_contacts.txt'
+  @@DIR_CC_CONTACTCS = '/home/sodepusr/Herald/emails/cc_contacts.txt'
 
   def initialize
     @entities_contacts = []
@@ -184,7 +191,7 @@ class EmailSender
     message['BILLER'] = biller_name
     message['ERROR_LOG'] = error
     brand_product = ''
-    products.each {|prd| brand_product += "#{biller_name} -> #{prd}\n"}
+    products.each {|prd| brand_product += "-> #{prd}\n"}
     message['BILLER_PRODUCTS'] = brand_product
     # Returning the message
     message
