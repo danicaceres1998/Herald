@@ -12,14 +12,12 @@ soportecnb@elcomercio.com.py
 comercialcnb@elcomercio.com.py
 ti_produccion@elcomercio.com.py
 joseruizdiaz@elcomercio.com.py
-center@regional.com.py
 banca.digital@regional.com.py
 medios_electronicos_servicios@solar.com.py
 irivarola@solar.com.py
 alejandrojose.fretes@bbva.com
 victorsebastian.caceres.contractor@bbva.com
 derlisatilio.zarate@bbva.com
-ddsi.py.group@bbva.com
 soporte_canales.py.group@bbva.com
 consultasdigitales.py.group@bbva.com
 productos@atlas.com.py
