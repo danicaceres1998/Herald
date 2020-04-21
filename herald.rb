@@ -2,7 +2,7 @@
 # Gems
 require 'csv'
 require 'mail'
-require "readline"
+require 'readline'
 
 # Modules
 module MyLogger
@@ -235,11 +235,11 @@ class EmailSender
     # Sending the email
     begin
       mail.deliver!
-      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{@entities_contacts.join('; ')}"
-      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{@entities_contacts.join('; ')}")
+      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities email sended (see the contacts in Herald/emails/entities_contacts.txt)"
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities email sended (see the contacts in Herald/emails/entities_contacts.txt)")
     rescue Exception => msg
-      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities emails to: #{@entities_contacts.join('; ')}"
-      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Entities emails to: #{@entities_contacts.join('; ')}")
+      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities email (see the contacts in Herald/emails/entities_contacts.txt)"
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Entities email (see the contacts in Herald/emails/entities_contacts.txt)")
     end
   end
 
@@ -265,11 +265,11 @@ class EmailSender
     # Sending the email
     begin
       mail.deliver!
-      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}"
-      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}")
+      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller email sended to: #{contacts.join('; ')}"
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller email sended to: #{contacts.join('; ')}")
     rescue Exception => msg
-      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller emails to: #{contacts.join('; ')}"
-      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Biller emails to: #{contacts.join('; ')}")
+      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller email to: #{contacts.join('; ')}"
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Biller email to: #{contacts.join('; ')}")
     end
   end
 
