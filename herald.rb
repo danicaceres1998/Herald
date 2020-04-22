@@ -1,12 +1,13 @@
 # Gems
 require 'csv'
 require 'mail'
-require "readline"
+require 'readline'
+require 'marshall'
 
 # Modules
 module MyLogger
-  @DIR_HIS_LOG = './logs/history.log'
-  @MAX_BITS = 3145728
+  @DIR_HIS_LOG = '/home/sodepusr/Herald/logs/down_billers.log'
+  @MAX_BYTES = 3145728
   @file = nil
 
   # Open the file
@@ -29,7 +30,7 @@ module MyLogger
   # First log
   def self.init_log(message)
     self.open_file
-    if @file.size > @MAX_BITS
+    if @file.size > @MAX_BYTES
       File.delete(@DIR_HIS_LOG)
       system("touch #{@DIR_HIS_LOG}")
     end
@@ -39,6 +40,7 @@ module MyLogger
     self.close_file
   end
 
+  # Last log
   def self.last_log
     self.open_file
     @file.puts "End: #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
@@ -50,8 +52,8 @@ end
 # Classes
 class Herald
   # Class Constants
-  @@CANT_BITS = 3145728
-  @@DIR_DB = './data/data.csv'
+  @@DIR_DB = '/home/sodepusr/Herald/data/data.csv'
+  @@DEFAULT_EMAIL = ''
   @@EMAILS = %w[
     natasha.correa@bancard.com.py
     carlos.villalba@bancard.com.py
@@ -60,7 +62,8 @@ class Herald
   ]
 
   def initialize
-    @email_sender = EmailSender.new()
+    @email_sender = EmailSender.new
+    @serializer = Serializer.new
     @user_email = ''
     @biller_contacts = ''
     @id_brand = nil
@@ -80,9 +83,10 @@ class Herald
 
   # Function that returns names of the billers
   def search_billers(biller_name)
+    quote_chars = %w[" | ~ ^ & *]
     begin
       # Returns -> row[0]: id_br | row[1]: name_br | row[2]: id_prd | row[3]: name_prd
-      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';')
+      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';', quote_char: quote_chars.shift)
     rescue CSV::MalformedCSVError
       quote_chars.empty? ? raise : retry
     end
@@ -90,11 +94,28 @@ class Herald
     billers = table.select {|row| row[1].downcase.include? biller_name}
   end
 
+  def biller_search
+    loop do
+      puts "\nBuscar Facturador:"
+      30.times {print '-'}; puts
+      print "\nIngrese el nombre del facturador o su ID: "
+      @id_brand = gets.chomp
+      break unless @id_brand.to_i == 0
+      list_billers = self.search_billers(@id_brand)
+      puts "\nResultado de la busqueda:"
+      30.times {print '-'}; puts
+      # row[0]: ID | row[1]: name_brand
+      list_billers.each {|row| puts "*-) ID: #{row[0]}\tNombre: #{row[1]}"}
+      puts "\nOBS: Si desea elegir el facturador ingrese el ID del mismo!"
+    end
+  end
+
   # Function that returns ids of the selected products
   def get_biller(id_biller)
+    quote_chars = %w[" | ~ ^ & *]
     begin
       # Returns -> table[0]: id_br | table[1]: name_br | table[2]: id_prd | table[3]: name_prd
-      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';')
+      table = CSV.parse(File.read(@@DIR_DB), headers: true, col_sep: ';', quote_char: quote_chars.shift)
     rescue CSV::MalformedCSVError
       quote_chars.empty? ? raise : retry
     end
@@ -103,16 +124,27 @@ class Herald
 
   # Main Function
   def main
-    60.times {print '='}
+    system('clear')
+    60.times {print '='}; puts
+    puts "HERALD"
+    30.times {print '-'}; puts
+    puts "\nDar de Baja un Facturador ->\t1"
+    puts "\nDar de Alta un Facturador ->\t2"
+    print "Elija la opcion que desee (ingrese el numero): "
+    response = gets.chomp.to_i
+    case response
+    when 1
+      self.disable_biller
+    when 2
+      self.active_biller
+    else
+      puts "ERROR: Opcion invalida"; exit
+    end
   end
 
   # Function for active a biller
   def active_biller
-    
-  end
-  
-  # Function for disable a biller
-  def disable_biller
+    system('clear')
     60.times {print '='}
     puts "\nLista de Correos:"
     30.times {print '-'}; puts
@@ -121,45 +153,53 @@ class Herald
     @user_email = @@EMAILS[gets.chomp.to_i-1]
     puts "\nEmail a usar -> #{@user_email}"
     # Searching the biller ID
-    loop do
-      puts "\nBuscar Facturador:"
-      30.times {print '-'}; puts
-      print "\nIngrese el nombre del facturador: "
-      @id_brand = gets.chomp
-      break unless @id_brand.to_i == 0
-      list_billers = self.search_billers(@id_brand)
-      # row[0]: ID | row[1]: name_brand
-      list_billers.each {|row| puts "*-) ID: #{row[0]}\tNombre: #{row[1]}"}
-      print "\nOBS: Si desea salir ingrese el ID del facturador"
-    end
+  end
+  
+  # Function for disable a biller
+  def disable_biller
+    system('clear')
+    60.times {print '='}
+    puts "\nLista de Correos:"
+    30.times {print '-'}; puts
+    @@EMAILS.length.times {|num| puts "*-) #{@@EMAILS[num]} ->\t#{num+1}"}
+    print "\nIngrese el numero de su email: "
+    @user_email = @@EMAILS[gets.chomp.to_i-1]
+    puts "\nEmail a usar -> #{@user_email}"
+    # Searching the biller ID
+    self.biller_search
     # Getting the biller
     @biller = self.get_biller(@id_brand)
-    if @biller.empty?
-      puts "No se encontro el Facturador, vuelva a intentar"; exit
+    loop do
+      break unless @biller.empty?
+      puts "ERROR: No se encontro el Facturador, vuelva a intentar!"
+      self.biller_search
+      @biller = self.get_biller(@id_brand)
     end
     # Showing the products
-    puts "\nSe desabilitara los productos de: #{@biller[0]['name_brand']}"
+    puts "\nSe desabilitaran los productos de: #{@biller[0]['name_brand']}"
+    60.times {print '-'}; puts
     @biller.each {|row| puts "*-) ID: #{row[2]}\tNombre: #{row[3]}"}
     print "\nDesea continuar y/n: "
     exit unless gets.chomp.downcase == 'y'
     # Disabling the service
-    @biller.each do |row|
-      self.disable_service(row[2], row[1], row[3])
-    end
-    # Saving all the facts
+    @biller.each {|row| self.disable_service(row[2], row[1], row[3])}
+    # Saving all the actions
     MyLogger.init_log("The user: #{@user_email}\nDisabled the products of: #{@biller[0]['name_brand']}")
     # Getting the biller emails
-    30.times {print '-'}; puts
-    print "\nIngrese los emails de los facturadores (separado por '; '): "
+    60.times {print '-'}; puts
+    print "\nIngrese los emails de los contactos de los facturadores (separados por '; '): "
     @biller_contacts = gets.chomp
     # Getting the error to send
     error = []
-    30.times {print '-'}; puts
-    print "\nCopie y pegue aqui el error:"
-    puts "\nOBS: Para salir ingrese -> q"
-    while buf = Readline.readline("> ", true)
-      break if buf == 'q'
-      error.push(buf)
+    loop do
+      60.times {print '-'}; puts
+      print "\nCopie y pegue aqui el error:"
+      puts "\nOBS: Para continuar ingrese -> Q/q"
+      while buf = Readline.readline("> ", true)
+        break if buf == 'q' or buf == 'Q'
+        error.push(buf)
+      end
+      error.empty? ? puts("ERROR: No ingreso el error a reportar, favor ingresarlo !\n") : break
     end
     # Sending the emial to the biller
     @email_sender.send_email_biller(@user_email, @biller[0]['name_brand'], @biller_contacts.split('; '), error.join("\n"))
@@ -169,17 +209,79 @@ class Herald
     @email_sender.send_email_entities(@user_email, @biller[0]['name_brand'], products, error.join("\n"))
     # Finishing all
     MyLogger.last_log
+    @serializer.add_biller(@id_brand, @biller[0]['name_brand'], @biller_contacts)
     puts "\nINFO: Procesos Finalizados Correctamente!"; puts
+  end
+
+end
+
+# Object Serializer
+class Serializer
+  # Class Constants
+  @@DATA_FILE = '/home/sodepusr/Herald/data/billers'
+
+  def initialize
+    if File.empty?(@@DATA_FILE)
+      File.open('./billers', 'w+') do |file|  
+        Marshal.dump([], file)  
+      end
+    end
+    @list_billers = nil
+  end
+
+  def get_tracking_billers
+    # Getting the list of billers
+    File.open(@@DATA_FILE) do |f|  
+      @list_billers = Marshal.load(f)  
+    end
+    # Returning the list
+    @list_billers
+  end
+
+  def add_biller(id_brand, brand_name, biller_contacts)
+    # Getting the list of billers
+    File.open(@@DATA_FILE) do |f|  
+      @list_billers = Marshal.load(f)  
+    end
+    # Saving the new biller to track
+    BillerStruct = Struct.new(:id_brand, :brand_name, :biller_contacts)
+    biller = BillerStruct.new(id_brand, brand_name, biller_contacts)
+    @list_billers.push(biller)
+    # Serializing the biller
+    File.open(@@DATA_FILE, 'w+') do |file|  
+      Marshal.dump(@list_billers, file)  
+    end
+  end
+
+  def delete_biller(id_brand)
+    # Getting the list of billers
+    File.open(@@DATA_FILE) do |f|  
+      @list_billers = Marshal.load(f)  
+    end
+    # Searching the biller
+    deleted_biller = nil
+    @list_billers.each do |biller| 
+      if biller.id_brand == id_brand
+        deleted_biller = @list_billers.delete_at(@list_billers.index(biller))
+        break
+      end
+    end
+    # Saving the new list of billers
+    File.open(@@DATA_FILE, 'w+') do |file|  
+      Marshal.dump(@list_billers, file)  
+    end
+    # Returning the deleted biller
+    deleted_biller
   end
 
 end
 
 class EmailSender
   # Class Constants
-  @@DIR_EMAIL_ENTITIES = './emails/entities_email.txt'
-  @@DIR_EMAIL_BILLER = './emails/biller_email.txt'
-  @@DIR_CCO_ENTITIES = './emails/entities_contacts.txt'
-  @@DIR_CC_CONTACTCS = './emails/cc_contacts.txt'
+  @@DIR_EMAIL_ENTITIES = '/home/sodepusr/Herald/emails/entities_email.txt'
+  @@DIR_EMAIL_BILLER = '/home/sodepusr/Herald/emails/biller_email.txt'
+  @@DIR_CCO_ENTITIES = '/home/sodepusr/Herald/emails/entities_contacts.txt'
+  @@DIR_CC_CONTACTCS = '/home/sodepusr/Herald/emails/cc_contacts.txt'
 
   def initialize
     @entities_contacts = []
@@ -188,13 +290,13 @@ class EmailSender
 
   def read_email_entities(biller_name, products, error)
     # Getting the message
-    message = Time.now.strftime('%H').to_i < 12 ? 'Buenos dias' : 'Buenas Tardes'
+    message = Time.now.strftime('%H').to_i < 12 ? 'Buenos Dias' : 'Buenas Tardes'
     File.foreach(@@DIR_EMAIL_ENTITIES, "r:UTF-8")  {|line| message += line}
     # Changing the message
     message['BILLER'] = biller_name
     message['ERROR_LOG'] = error
     brand_product = ''
-    products.each {|prd| brand_product += "#{biller_name} -> #{prd}\n"}
+    products.each {|prd| brand_product += "-> #{prd}\n"}
     message['BILLER_PRODUCTS'] = brand_product
     # Returning the message
     message
@@ -202,7 +304,7 @@ class EmailSender
 
   def read_email_biller(biller_name, error)
     # Getting the message
-    message = Time.now.strftime('%H').to_i < 12 ? 'Buenos dias' : 'Buenas Tardes'
+    message = Time.now.strftime('%H').to_i < 12 ? 'Buenos Dias' : 'Buenas Tardes'
     File.foreach(@@DIR_EMAIL_BILLER, "r:UTF-8")  {|line| message += line}
     # Changing the message
     message['BILLER'] = biller_name
@@ -238,11 +340,11 @@ class EmailSender
     # Sending the email
     begin
       mail.deliver!
-      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{@entities_contacts.join('; ')}"
-      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities emails sended to: #{@entities_contacts.join('; ')}")
+      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities email sended (see the contacts in Herald/emails/entities_contacts.txt)"
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities email sended (see the contacts in Herald/emails/entities_contacts.txt)")
     rescue Exception => msg
-      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities emails to: #{@entities_contacts.join('; ')}"
-      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Entities emails to: #{@entities_contacts.join('; ')}")
+      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities email (see the contacts in Herald/emails/entities_contacts.txt)"
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Entities email (see the contacts in Herald/emails/entities_contacts.txt)")
     end
   end
 
@@ -268,11 +370,11 @@ class EmailSender
     # Sending the email
     begin
       mail.deliver!
-      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}"
-      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller Emails sended to: #{contacts.join('; ')}")
+      puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller email sended to: #{contacts.join('; ')}"
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller email sended to: #{contacts.join('; ')}")
     rescue Exception => msg
-      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller emails to: #{contacts.join('; ')}"
-      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Biller emails to: #{contacts.join('; ')}")
+      puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller email to: #{contacts.join('; ')}"
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Biller email to: #{contacts.join('; ')}")
     end
   end
 
