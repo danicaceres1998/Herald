@@ -148,6 +148,51 @@ class Herald
 
   # Function for active a biller
   def active_biller
+    # Internal Functions
+    def delete_biller
+      system('clear')
+      self.show_tracking_billers
+      print "\nIngrese el ID del facturador: "
+      @id_brand = gets.chomp
+      @biller = @serializer.delete_biller(@id_brand)
+      if @biller.nil?
+        puts "ERROR: no se pudo encontrar al facturador, vuelva a intentar! (Presione ENTER para reintentar)"
+        gets.chomp
+        self.delete_biller
+      end
+      MyLogger.init_log("The user: #{@user_email}\nStopped tracking the biller: #{@biller.brand_name}
+      \nWithout sending the emails", true)
+      MyLogger.last_log(true)
+    end
+
+    def activate_biller
+      system('clear')
+      self.show_tracking_billers
+      print "\nIngrese el ID del facturador: "
+      @id_brand = gets.chomp
+      @biller = @serializer.delete_biller(@id_brand)
+      if @biller.nil?
+        puts "ERROR: no se pudo encontrar al facturador, vuelva a intentar! (Presione ENTER para reintentar)"
+        gets.chomp
+        self.activate_biller
+      end
+      MyLogger.init_log("The user: #{@user_email}\nStopped tracking the biller: #{@biller.brand_name}", true)
+      @email_sender.send_email_biller(@user_email, @biller.brand_name, @biller.biller_contacts.split('; '), nil, true)
+      @email_sender.send_email_entities(@user_email, @biller.brand_name, nil, nil, true)
+      MyLogger.last_log(true)
+      puts "\nINFO: Procesos Finalizados Correctamente!"; puts
+    end
+
+    def show_tracking_billers
+      puts "Facturadores en seguimiento:"
+      30.times {print '-'}; puts
+      list_billers = @serializer.get_tracking_billers
+      # id_brand, brand_name, biller_contacts
+      list_billers.each {|biller| puts "*-) ID: #{biller.id_brand}\tMarca: #{biller.brand_name}
+      \tContactos: #{biller.biller_contacts.join("; ")}"}
+    end
+
+    # Main Function
     system('clear')
     60.times {print '='}
     puts "\nLista de Correos:"
@@ -156,7 +201,23 @@ class Herald
     print "\nIngrese el numero de su email: "
     @user_email = @@EMAILS[gets.chomp.to_i-1]
     puts "\nEmail a usar -> #{@user_email}"
-    # Searching the biller ID
+    # Showing all the billers
+    self.show_tracking_billers
+    puts "\nOpciones:\nDejar de seguir ->\t1\nDar de alta ->\t2\nSalir ->\t3"
+    print 'Ingrese la opcion que desee: '
+    response = gets.chomp.to_i
+    case respose
+    when 1
+      self.delete_biller
+    when 2
+      self.activate_biller
+    when 3
+      exit
+    else
+      puts "ERROR: Opcion invalida, presione ENTER para continuar"
+      gets.chomp
+      self.active_biller
+    end
   end
   
   # Function for disable a biller
@@ -189,6 +250,7 @@ class Herald
     @biller.each {|row| self.disable_service(row[2], row[1], row[3])}
     # Saving all the actions
     MyLogger.init_log("The user: #{@user_email}\nDisabled the products of: #{@biller[0]['name_brand']}", false)
+    MyLogger.init_log("The user: #{@user_email}\nStarted Tracking: #{@biller[0]['name_brand']}", true)
     # Getting the biller emails
     60.times {print '-'}; puts
     print "\nIngrese los emails de los contactos de los facturadores (separados por '; '): "
@@ -213,6 +275,7 @@ class Herald
     @email_sender.send_email_entities(@user_email, @biller[0]['name_brand'], products, error.join("\n"), false)
     # Finishing all
     MyLogger.last_log(false)
+    MyLogger.last_log(true)
     @serializer.add_biller(@id_brand, @biller[0]['name_brand'], @biller_contacts)
     puts "\nINFO: Procesos Finalizados Correctamente!"; puts
   end
