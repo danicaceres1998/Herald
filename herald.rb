@@ -1,18 +1,19 @@
+#!/usr/bin/env ruby
 # Gems
 require 'csv'
 require 'mail'
 require 'readline'
-require 'marshall'
 
 # Modules
 module MyLogger
-  @DIR_HIS_LOG = '/home/sodepusr/Herald/logs/down_billers.log'
+  @@DIR_DOWNB_LOG = '/home/sodepusr/Herald/logs/down_billers.log'
+  @@DIR_TRACKB_LOG = '/home/sodepusr/Herald/logs/tracking_billers.log'
   @MAX_BYTES = 3145728
   @file = nil
 
   # Open the file
-  def self.open_file
-    @file = File.open(@DIR_HIS_LOG, 'a')
+  def self.open_file(path)
+    @file = File.open(path, 'a')
   end
 
   # Close the file
@@ -21,15 +22,17 @@ module MyLogger
   end
 
   # Function that log the actions
-  def self.log(message)
-    self.open_file
+  def self.log(message, is_active_email)
+    is_active_email ? path = @@DIR_TRACKB_LOG : path = @@DIR_DOWNB_LOG
+    self.open_file(path)
     @file.puts "#{message}"
     self.close_file
   end
 
   # First log
-  def self.init_log(message)
-    self.open_file
+  def self.init_log(message, is_active_email)
+    is_active_email ? path = @@DIR_TRACKB_LOG : path = @@DIR_DOWNB_LOG
+    self.open_file(path)
     if @file.size > @MAX_BYTES
       File.delete(@DIR_HIS_LOG)
       system("touch #{@DIR_HIS_LOG}")
@@ -41,8 +44,9 @@ module MyLogger
   end
 
   # Last log
-  def self.last_log
-    self.open_file
+  def self.last_log(is_active_email)
+    is_active_email ? path = @@DIR_TRACKB_LOG : path = @@DIR_DOWNB_LOG
+    self.open_file(path)
     @file.puts "End: #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
     self.close_file
   end
@@ -126,10 +130,10 @@ class Herald
   def main
     system('clear')
     60.times {print '='}; puts
-    puts "HERALD"
-    30.times {print '-'}; puts
+    puts "\t\t\t  HERALD"
+    60.times {print '='}; puts
     puts "\nDar de Baja un Facturador ->\t1"
-    puts "\nDar de Alta un Facturador ->\t2"
+    puts "Dar de Alta un Facturador ->\t2"
     print "Elija la opcion que desee (ingrese el numero): "
     response = gets.chomp.to_i
     case response
@@ -184,7 +188,7 @@ class Herald
     # Disabling the service
     @biller.each {|row| self.disable_service(row[2], row[1], row[3])}
     # Saving all the actions
-    MyLogger.init_log("The user: #{@user_email}\nDisabled the products of: #{@biller[0]['name_brand']}")
+    MyLogger.init_log("The user: #{@user_email}\nDisabled the products of: #{@biller[0]['name_brand']}", false)
     # Getting the biller emails
     60.times {print '-'}; puts
     print "\nIngrese los emails de los contactos de los facturadores (separados por '; '): "
@@ -202,13 +206,13 @@ class Herald
       error.empty? ? puts("ERROR: No ingreso el error a reportar, favor ingresarlo !\n") : break
     end
     # Sending the emial to the biller
-    @email_sender.send_email_biller(@user_email, @biller[0]['name_brand'], @biller_contacts.split('; '), error.join("\n"))
+    @email_sender.send_email_biller(@user_email, @biller[0]['name_brand'], @biller_contacts.split('; '), error.join("\n"), false)
     # Sending the email to the entities
     products = []
     @biller.each {|row| products.push("ID: #{row[2]}\tNombre: #{row[3]}")}
-    @email_sender.send_email_entities(@user_email, @biller[0]['name_brand'], products, error.join("\n"))
+    @email_sender.send_email_entities(@user_email, @biller[0]['name_brand'], products, error.join("\n"), false)
     # Finishing all
-    MyLogger.last_log
+    MyLogger.last_log(false)
     @serializer.add_biller(@id_brand, @biller[0]['name_brand'], @biller_contacts)
     puts "\nINFO: Procesos Finalizados Correctamente!"; puts
   end
@@ -221,8 +225,8 @@ class Serializer
   @@DATA_FILE = '/home/sodepusr/Herald/data/billers'
 
   def initialize
-    if File.empty?(@@DATA_FILE)
-      File.open('./billers', 'w+') do |file|  
+    if File.size(@@DATA_FILE) == 0
+      File.open(@@DATA_FILE, 'w+') do |file|  
         Marshal.dump([], file)  
       end
     end
@@ -244,8 +248,8 @@ class Serializer
       @list_billers = Marshal.load(f)  
     end
     # Saving the new biller to track
-    BillerStruct = Struct.new(:id_brand, :brand_name, :biller_contacts)
-    biller = BillerStruct.new(id_brand, brand_name, biller_contacts)
+    Struct.new("BillerStruct", :id_brand, :brand_name, :biller_contacts)
+    biller = Struct::BillerStruct.new(id_brand, brand_name, biller_contacts)
     @list_billers.push(biller)
     # Serializing the biller
     File.open(@@DATA_FILE, 'w+') do |file|  
@@ -282,33 +286,42 @@ class EmailSender
   @@DIR_EMAIL_BILLER = '/home/sodepusr/Herald/emails/biller_email.txt'
   @@DIR_CCO_ENTITIES = '/home/sodepusr/Herald/emails/entities_contacts.txt'
   @@DIR_CC_CONTACTCS = '/home/sodepusr/Herald/emails/cc_contacts.txt'
+  @@DIR_ACTIVE_EMAIL = '/home/sodepusr/Herald/emails/active_biller_email.txt'
 
   def initialize
     @entities_contacts = []
     @cc_contacts = []
   end
 
-  def read_email_entities(biller_name, products, error)
+  def read_email_entities(biller_name, products, error, path, is_active_email)
     # Getting the message
     message = Time.now.strftime('%H').to_i < 12 ? 'Buenos Dias' : 'Buenas Tardes'
-    File.foreach(@@DIR_EMAIL_ENTITIES, "r:UTF-8")  {|line| message += line}
+    File.foreach(path, "r:UTF-8")  {|line| message += line}
     # Changing the message
-    message['BILLER'] = biller_name
-    message['ERROR_LOG'] = error
-    brand_product = ''
-    products.each {|prd| brand_product += "-> #{prd}\n"}
-    message['BILLER_PRODUCTS'] = brand_product
+    if is_active_email
+      message['BILLER'] = biller_name
+    else
+      message['BILLER'] = biller_name
+      message['ERROR_LOG'] = error
+      brand_product = ''
+      products.each {|prd| brand_product += "-> #{prd}\n"}
+      message['BILLER_PRODUCTS'] = brand_product
+    end
     # Returning the message
     message
   end
 
-  def read_email_biller(biller_name, error)
+  def read_email_biller(biller_name, error, path, is_active_email)
     # Getting the message
     message = Time.now.strftime('%H').to_i < 12 ? 'Buenos Dias' : 'Buenas Tardes'
-    File.foreach(@@DIR_EMAIL_BILLER, "r:UTF-8")  {|line| message += line}
+    File.foreach(path, "r:UTF-8")  {|line| message += line}
     # Changing the message
-    message['BILLER'] = biller_name
-    message['ERROR_LOG'] = error
+    if is_active_email
+      message['BILLER'] = biller_name
+    else
+      message['BILLER'] = biller_name
+      message['ERROR_LOG'] = error
+    end
     # Returning the message
     message
   end
@@ -319,13 +332,14 @@ class EmailSender
     end
   end
 
-  def send_email_entities(user_email, biller_name, products, error)
+  def send_email_entities(user_email, biller_name, products, error, is_active_email)
     #  Configuration for the email
     Mail.defaults do
       delivery_method :smtp, address: '192.100.1.12', port: 25
     end
     # Reading and configurating the message
-    message = self.read_email_entities(biller_name, products, error)
+    is_active_email ? path = @@DIR_ACTIVE_EMAIL : path = @@DIR_EMAIL_ENTITIES
+    message = self.read_email_entities(biller_name, products, error, path, is_active_email)
     # Configuration for send the email
     mail = Mail.new do
       from     user_email
@@ -341,20 +355,21 @@ class EmailSender
     begin
       mail.deliver!
       puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities email sended (see the contacts in Herald/emails/entities_contacts.txt)"
-      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities email sended (see the contacts in Herald/emails/entities_contacts.txt)")
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Entities email sended (see the contacts in Herald/emails/entities_contacts.txt)", is_active_email)
     rescue Exception => msg
       puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Entities email (see the contacts in Herald/emails/entities_contacts.txt)"
-      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Entities email (see the contacts in Herald/emails/entities_contacts.txt)")
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Entities email (see the contacts in Herald/emails/entities_contacts.txt)", is_active_email)
     end
   end
 
-  def send_email_biller(user_email, biller_name, contacts, error)
+  def send_email_biller(user_email, biller_name, contacts, error, is_active_email)
     #  Configuration for the email
     Mail.defaults do
       delivery_method :smtp, address: '192.100.1.12', port: 25
     end
     # Reading and configurating the message
-    message = self.read_email_biller(biller_name, error)
+    is_active_email ? path = @@DIR_ACTIVE_EMAIL : path = @@DIR_EMAIL_BILLER
+    message = self.read_email_biller(biller_name, error, path, is_active_email)
     # Configuration for send the email
     mail = Mail.new do
       from     user_email
@@ -371,10 +386,10 @@ class EmailSender
     begin
       mail.deliver!
       puts "SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller email sended to: #{contacts.join('; ')}"
-      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller email sended to: #{contacts.join('; ')}")
+      MyLogger.log("SUCCESS #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Biller email sended to: #{contacts.join('; ')}", is_active_email)
     rescue Exception => msg
       puts "ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')} -> Unable to send Biller email to: #{contacts.join('; ')}"
-      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Biller email to: #{contacts.join('; ')}")
+      MyLogger.log("ERROR #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}: #{msg} -> Unable to send Biller email to: #{contacts.join('; ')}", is_active_email)
     end
   end
 
