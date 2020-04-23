@@ -53,6 +53,9 @@ module MyLogger
 
 end
 
+# Structs
+Struct.new("BillerStruct", :id_brand, :brand_name, :biller_contacts)
+
 # Classes
 class Herald
   # Class Constants
@@ -134,7 +137,7 @@ class Herald
     60.times {print '='}; puts
     puts "\nDar de Baja un Facturador ->\t1"
     puts "Dar de Alta un Facturador ->\t2"
-    print "Elija la opcion que desee (ingrese el numero): "
+    print "\nElija la opcion que desee (ingrese el numero): "
     response = gets.chomp.to_i
     case response
     when 1
@@ -160,9 +163,10 @@ class Herald
         gets.chomp
         self.delete_biller
       end
-      MyLogger.init_log("The user: #{@user_email}\nStopped tracking the biller: #{@biller.brand_name}
-      \nWithout sending the emails", true)
+      MyLogger.init_log("The user: #{@user_email}\nStopped tracking the biller: #{@biller.brand_name}\nWITHOUT sending the emails", true)
       MyLogger.last_log(true)
+      puts "\nINFO: Procesos Finalizados Correctamente!"; puts
+      exit
     end
 
     def activate_biller
@@ -181,15 +185,15 @@ class Herald
       @email_sender.send_email_entities(@user_email, @biller.brand_name, nil, nil, true)
       MyLogger.last_log(true)
       puts "\nINFO: Procesos Finalizados Correctamente!"; puts
+      exit
     end
 
     def show_tracking_billers
-      puts "Facturadores en seguimiento:"
+      puts "\nFacturadores en seguimiento:"
       30.times {print '-'}; puts
       list_billers = @serializer.get_tracking_billers
       # id_brand, brand_name, biller_contacts
-      list_billers.each {|biller| puts "*-) ID: #{biller.id_brand}\tMarca: #{biller.brand_name}
-      \tContactos: #{biller.biller_contacts.join("; ")}"}
+      list_billers.each {|biller| puts "*-) ID: #{biller.id_brand}\tMarca: #{biller.brand_name}\tContactos: #{biller.biller_contacts}"}
     end
 
     # Main Function
@@ -203,10 +207,10 @@ class Herald
     puts "\nEmail a usar -> #{@user_email}"
     # Showing all the billers
     self.show_tracking_billers
-    puts "\nOpciones:\nDejar de seguir ->\t1\nDar de alta ->\t2\nSalir ->\t3"
-    print 'Ingrese la opcion que desee: '
+    puts "\nOpciones:\nDejar de seguir ->\t1\nDar de alta ->\t\t2\nSalir ->\t\t3"
+    print "\nIngrese la opcion que desee: "
     response = gets.chomp.to_i
-    case respose
+    case response
     when 1
       self.delete_biller
     when 2
@@ -219,7 +223,7 @@ class Herald
       self.active_biller
     end
   end
-  
+
   # Function for disable a biller
   def disable_biller
     system('clear')
@@ -289,8 +293,8 @@ class Serializer
 
   def initialize
     if File.size(@@DATA_FILE) == 0
-      File.open(@@DATA_FILE, 'w+') do |file|  
-        Marshal.dump([], file)  
+      File.open(@@DATA_FILE, 'w+') do |file|
+        Marshal.dump([], file)
       end
     end
     @list_billers = nil
@@ -298,8 +302,8 @@ class Serializer
 
   def get_tracking_billers
     # Getting the list of billers
-    File.open(@@DATA_FILE) do |f|  
-      @list_billers = Marshal.load(f)  
+    File.open(@@DATA_FILE) do |f|
+      @list_billers = Marshal.load(f)
     end
     # Returning the list
     @list_billers
@@ -307,35 +311,34 @@ class Serializer
 
   def add_biller(id_brand, brand_name, biller_contacts)
     # Getting the list of billers
-    File.open(@@DATA_FILE) do |f|  
-      @list_billers = Marshal.load(f)  
+    File.open(@@DATA_FILE) do |f|
+      @list_billers = Marshal.load(f)
     end
     # Saving the new biller to track
-    Struct.new("BillerStruct", :id_brand, :brand_name, :biller_contacts)
     biller = Struct::BillerStruct.new(id_brand, brand_name, biller_contacts)
     @list_billers.push(biller)
     # Serializing the biller
-    File.open(@@DATA_FILE, 'w+') do |file|  
-      Marshal.dump(@list_billers, file)  
+    File.open(@@DATA_FILE, 'w+') do |file|
+      Marshal.dump(@list_billers, file)
     end
   end
 
   def delete_biller(id_brand)
     # Getting the list of billers
-    File.open(@@DATA_FILE) do |f|  
-      @list_billers = Marshal.load(f)  
+    File.open(@@DATA_FILE) do |f|
+      @list_billers = Marshal.load(f)
     end
     # Searching the biller
     deleted_biller = nil
-    @list_billers.each do |biller| 
+    @list_billers.each do |biller|
       if biller.id_brand == id_brand
         deleted_biller = @list_billers.delete_at(@list_billers.index(biller))
         break
       end
     end
     # Saving the new list of billers
-    File.open(@@DATA_FILE, 'w+') do |file|  
-      Marshal.dump(@list_billers, file)  
+    File.open(@@DATA_FILE, 'w+') do |file|
+      Marshal.dump(@list_billers, file)
     end
     # Returning the deleted biller
     deleted_biller
