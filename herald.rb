@@ -8,21 +8,21 @@ require 'readline'
 module MyLogger
   @@DIR_DOWNB_LOG = '/home/sodepusr/Herald/logs/down_billers.log'
   @@DIR_TRACKB_LOG = '/home/sodepusr/Herald/logs/tracking_billers.log'
-  @MAX_BYTES = 3145728
+  @@MAX_BYTES = 3145728
   @file = nil
 
   # Open the file
-  def self.open_file(path)
+  def open_file(path)
     @file = File.open(path, 'a')
   end
 
   # Close the file
-  def self.close_file
+  def close_file
     @file.close
   end
 
   # Function that log the actions
-  def self.log(message, is_active_email)
+  def log(message, is_active_email)
     is_active_email ? path = @@DIR_TRACKB_LOG : path = @@DIR_DOWNB_LOG
     self.open_file(path)
     @file.puts "#{message}"
@@ -30,10 +30,10 @@ module MyLogger
   end
 
   # First log
-  def self.init_log(message, is_active_email)
+  def init_log(message, is_active_email)
     is_active_email ? path = @@DIR_TRACKB_LOG : path = @@DIR_DOWNB_LOG
     self.open_file(path)
-    if @file.size > @MAX_BYTES
+    if @file.size > @@MAX_BYTES
       File.delete(@DIR_HIS_LOG)
       system("touch #{@DIR_HIS_LOG}")
     end
@@ -44,7 +44,7 @@ module MyLogger
   end
 
   # Last log
-  def self.last_log(is_active_email)
+  def last_log(is_active_email)
     is_active_email ? path = @@DIR_TRACKB_LOG : path = @@DIR_DOWNB_LOG
     self.open_file(path)
     @file.puts "End: #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
@@ -76,7 +76,7 @@ class Herald
     @serializer = Serializer.new
     @user_email = ''
     @biller_contacts = ''
-    @id_brand = nil
+    @id_brand = ''
     @biller = nil
   end
 
@@ -88,7 +88,7 @@ class Herald
     petition += "'extra_product_params[group]=notification_message' -F 'extra_product_params[params][message]="
     petition += "El servicio #{biller_name} - #{product_name} se encuentra en mantenimiento, lo estaremos restableciendo en la brevedad posible' -k"
     puts petition
-    system(petition)
+    system(petition); puts
   end
 
   # Function that enable one service
@@ -198,7 +198,7 @@ class Herald
       init_log("The user: #{@user_email}\nStopped tracking the biller: #{@biller.brand_name}", true)
       # Activating the services
       puts "Activating all the services ..."
-      log("Activanting all the services ...")
+      log("Activanting all the services ...", true)
       @biller.products.each {|prd| self.enable_service(prd[:id])}
       # Sending the emials
       @email_sender.send_email_biller(@user_email, @biller.brand_name, @biller.biller_contacts.split('; '), nil, true)
@@ -254,7 +254,7 @@ class Herald
     50.times {print '-'}; puts
     @biller.each {|row| puts "*-)ID: #{row[2]}\tProducto: #{row[3]}"}
     list_ids = []
-    print "\nIngrese \"T/t\" para seleccionar todos\nSi no, eliga el ID del producto que desea: "
+    print "\nIngrese \"T/t\" para seleccionar todos, Q/q para continuar\nSi no, eliga el ID del producto que desea: "; puts
     # Getting the IDs for select
     @biller.length.times do |i|
       print "[#{i+1}]-ID: "
@@ -262,7 +262,7 @@ class Herald
       if response.downcase == 't'
         puts "\nSe tomaran todos los productos ..."
         list_ids = nil
-        break
+        return
       elsif response.downcase == 'q'
         if list_ids.empty?
           puts "ERROR: La lista esta vacia, vuelva a cargar la lista (ENTER para reintentar)"
@@ -282,12 +282,10 @@ class Herald
       end
     end
     # Selecting the IDs
-    list_ids.nil? ? return : puts "\nRecolectando los productos seleccionados ..."
-    @biller.select! do |row|
-      list_ids.each do |id|
-        row[2] == id
-      end
-    end
+    list_ids.nil? ? return : puts("\nRecolectando los productos seleccionados ...")
+    new_list = []
+    @biller.each {|row| list_ids.each {|id| row[2] == id ? new_list.push(row) : 'nothing'}}
+    @biller = new_list
   end
 
   # Function for disable a biller
