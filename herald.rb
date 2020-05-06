@@ -285,6 +285,15 @@ class Herald
     list_ids.nil? ? return : puts("\nRecolectando los productos seleccionados ...")
     new_list = []
     @biller.each {|row| list_ids.each {|id| row[2] == id ? new_list.push(row) : 'nothing'}}
+    if list_ids.length == new_list.length
+      puts "\nSUCCES: Se encontraron todos los productos ..."
+    else
+      puts "\nERROR: No se encotraron todos los productos\nIDs ingresados:"
+      list_ids.each {|id| puts "-> #{id}"}
+      puts "Para reintentar ingrese ENTER "
+      gets.chomp
+      self.select_products
+    end
     @biller = new_list
   end
 
